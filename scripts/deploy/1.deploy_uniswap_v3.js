@@ -1,9 +1,8 @@
 const hre = require("hardhat");
 
-// const IERC20Artifact = require("../abis/IERC20.json");
-// const WETH9 = require("../abis/WETH9.json");
-// const UniswapV3Factory = require("../abis/UniswapV3Factory.json");
-// const SwapRouterArtifact = require("../abis/SwapRouter.json");
+const WETH9 = require("../abis/WETH9.json");
+const UniswapV3Factory = require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json");
+
 const NFTDescriptor = require("../../artifacts/contracts/libraries/NFTDescriptor.sol/NFTDescriptor.json");
 const NonfungibleTokenPositionDescriptor = require("../../artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json");
 const NonfungiblePositionManager = require("../../artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json");
@@ -11,8 +10,6 @@ const Quoter = require("../../artifacts/contracts/lens/Quoter.sol/Quoter.json");
 const QuoterV2 = require("../../artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json");
 const TickLens = require("../../artifacts/contracts/lens/TickLens.sol/TickLens.json");
 const UniswapInterfaceMulticall = require("../../artifacts/contracts/lens/UniswapInterfaceMulticall.sol/UniswapInterfaceMulticall.json");
-// const UniswapV3PoolArtifact = require("../abis/UniswapV3Pool.json");
-
 
 const linkLibraries = require("./linkLibraries");
 const { isBytes } = require("ethers/lib/utils");
@@ -22,7 +19,6 @@ async function main() {
   const deployer = accounts[0];
   console.log(deployer.address);
 
-  /*
   ///=========== WETH9
   const Weth9 = new hre.ethers.ContractFactory(WETH9.abi, WETH9.bytecode, deployer);
   const _weth9 = await Weth9.deploy();
@@ -34,20 +30,15 @@ async function main() {
 
   ///=========== UniswapV3Factory
   const uniswapV3Factory = new hre.ethers.ContractFactory(UniswapV3Factory.abi, UniswapV3Factory.bytecode, deployer);
-
-  // const uniswapV3Factory = await hre.ethers.getContractFactory("UniswapV3Factory");
-  // const uniswapV3Factory = new hre.ethers.ContractFactory(UniswapV3Factory.abi, UniswapV3Factory.bytecode, deployer);
   const _uniswapV3Factory = await uniswapV3Factory.deploy();
   await _uniswapV3Factory.deployed();
   console.log(`UniswapV3Factory deployed to ${_uniswapV3Factory.address}`);
 
   let _uniswapV3Factory_code = await hre.ethers.provider.getCode(_uniswapV3Factory.address);
   if (_uniswapV3Factory_code === '0x')  console.log('uniswapV3Factory is null')
-  */
-//  WETH9 deployed to 0x8bD7906d94edB28Db557638d71f94290f9005B13
-// UniswapV3Factory deployed to 0xdffC93895521DC04A844a6C5304dE63684380823
-  const Weth9Address ="0xB982F89c1ac12e76193dF04EdFCc9AC4618Ab708";
-  const UniswapV3FactoryAddress ="0x81654BC78aA342e461113AAe8c91257676Fe09b2";
+
+  let Weth9Address = _weth9.address
+  let UniswapV3FactoryAddress = _uniswapV3Factory.address
 
   ///=========== SwapRouter
   // const swapRouter = new hre.ethers.ContractFactory(SwapRouter.abi, SwapRouter.bytecode, deployer);
@@ -57,7 +48,6 @@ async function main() {
   const _swapRouter = await swapRouter.deploy(UniswapV3FactoryAddress, Weth9Address);
   await _swapRouter.deployed();
   console.log(`SwapRouter deployed to ${_swapRouter.address}`);
-
 
   let _swapRouter_code = await hre.ethers.provider.getCode(_swapRouter.address);
   if (_swapRouter_code === '0x')  console.log('_swapRouter is null')
@@ -89,7 +79,7 @@ async function main() {
     deployer
     );
 
-  const nativeCurrencyLabelBytes = await hre.ethers.utils.keccak256(ethers.utils.toUtf8Bytes("TOKAMAK"));
+  const nativeCurrencyLabelBytes = await hre.ethers.utils.keccak256(ethers.utils.toUtf8Bytes("TON"));
 
   const _nonfungibleTokenPositionDescriptor = await nonfungibleTokenPositionDescriptor.deploy(
     Weth9Address,
