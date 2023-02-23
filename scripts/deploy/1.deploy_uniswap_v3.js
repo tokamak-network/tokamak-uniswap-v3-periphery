@@ -40,11 +40,10 @@ async function main() {
   let Weth9Address = _weth9.address
   let UniswapV3FactoryAddress = _uniswapV3Factory.address
   */
-
-  // WETH9 deployed to 0xFb3911c46B85D8958740eCD2322E8346f2FdCD83
-  // UniswapV3Factory deployed to 0xc6cBe5b07508B86790019E4966Fa8D9019ac2FFc
-  let Weth9Address = "0xFb3911c46B85D8958740eCD2322E8346f2FdCD83"
-  let UniswapV3FactoryAddress = "0xc6cBe5b07508B86790019E4966Fa8D9019ac2FFc"
+//   WETH9 deployed to 0x04C91015CC8910B031F2399E04802b51bf6582A1
+// UniswapV3Factory deployed to 0x79d6318807A4d031eC4a896e3A079E115399fbcD
+  let Weth9Address = "0x04C91015CC8910B031F2399E04802b51bf6582A1"
+  let UniswapV3FactoryAddress = "0x79d6318807A4d031eC4a896e3A079E115399fbcD"
 
   ///=========== SwapRouter
   // const swapRouter = new hre.ethers.ContractFactory(SwapRouter.abi, SwapRouter.bytecode, deployer);
