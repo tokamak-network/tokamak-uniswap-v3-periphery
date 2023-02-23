@@ -18,7 +18,7 @@ async function main() {
   const accounts = await hre.ethers.getSigners();
   const deployer = accounts[0];
   console.log(deployer.address);
-
+  /*
   ///=========== WETH9
   const Weth9 = new hre.ethers.ContractFactory(WETH9.abi, WETH9.bytecode, deployer);
   const _weth9 = await Weth9.deploy();
@@ -39,6 +39,12 @@ async function main() {
 
   let Weth9Address = _weth9.address
   let UniswapV3FactoryAddress = _uniswapV3Factory.address
+  */
+
+  // WETH9 deployed to 0xFb3911c46B85D8958740eCD2322E8346f2FdCD83
+  // UniswapV3Factory deployed to 0xc6cBe5b07508B86790019E4966Fa8D9019ac2FFc
+  let Weth9Address = "0xFb3911c46B85D8958740eCD2322E8346f2FdCD83"
+  let UniswapV3FactoryAddress = "0xc6cBe5b07508B86790019E4966Fa8D9019ac2FFc"
 
   ///=========== SwapRouter
   // const swapRouter = new hre.ethers.ContractFactory(SwapRouter.abi, SwapRouter.bytecode, deployer);
