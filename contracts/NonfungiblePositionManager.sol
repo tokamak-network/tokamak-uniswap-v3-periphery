@@ -17,6 +17,7 @@ import './base/ERC721Permit.sol';
 import './base/PeripheryValidation.sol';
 import './base/SelfPermit.sol';
 import './base/PoolInitializer.sol';
+import 'hardhat/console.sol';
 
 /// @title NFT positions
 /// @notice Wraps Uniswap V3 positions in the ERC721 non-fungible token interface
@@ -137,6 +138,7 @@ contract NonfungiblePositionManager is
             uint256 amount1
         )
     {
+        console.log('mint %s', address(this));
         IUniswapV3Pool pool;
         (liquidity, amount0, amount1, pool) = addLiquidity(
             AddLiquidityParams({
@@ -153,17 +155,20 @@ contract NonfungiblePositionManager is
             })
         );
 
+        console.log('pool', address(pool));
+
         _mint(params.recipient, (tokenId = _nextId++));
+        console.log('tokenId %s', tokenId);
 
         bytes32 positionKey = PositionKey.compute(address(this), params.tickLower, params.tickUpper);
         (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
-
+        console.log('1');
         // idempotent set
         uint80 poolId = cachePoolKey(
             address(pool),
             PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee})
         );
-
+        console.log('2');
         _positions[tokenId] = Position({
             nonce: 0,
             operator: address(0),
@@ -176,7 +181,7 @@ contract NonfungiblePositionManager is
             tokensOwed0: 0,
             tokensOwed1: 0
         });
-
+        console.log('3');
         emit IncreaseLiquidity(tokenId, liquidity, amount0, amount1);
     }
 
@@ -311,7 +316,7 @@ contract NonfungiblePositionManager is
         override
         isAuthorizedForToken(params.tokenId)
         returns (uint256 amount0, uint256 amount1)
-    {
+    { /*
         require(params.amount0Max > 0 || params.amount1Max > 0);
         // allow collecting to the nft position manager address with address 0
         address recipient = params.recipient == address(0) ? address(this) : params.recipient;
@@ -370,6 +375,7 @@ contract NonfungiblePositionManager is
         (position.tokensOwed0, position.tokensOwed1) = (tokensOwed0 - amount0Collect, tokensOwed1 - amount1Collect);
 
         emit Collect(params.tokenId, recipient, amount0Collect, amount1Collect);
+        */
     }
 
     /// @inheritdoc INonfungiblePositionManager

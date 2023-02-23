@@ -4,6 +4,10 @@ import '@nomiclabs/hardhat-waffle'
 import 'hardhat-typechain'
 import 'hardhat-watcher'
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.8.15',
   settings: {
@@ -76,6 +80,18 @@ export default {
     optimism: {
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
+    local: {
+      chainId: 31337,
+      url: `http://127.0.0.1:8545/`,
+      timeout: 200000,
+      // accounts: [`${process.env.PRIVATE_KEY}`,`${process.env.LOCAL_KEY}`,`${process.env.LOCAL_KEY2}`,`${process.env.LOCAL_KEY3}`,`${process.env.LOCAL_KEY4}`,`${process.env.LOCAL_KEY5}`,`${process.env.LOCAL_KEY6}`,`${process.env.LOCAL_KEY7}`]
+    },
+    tokamakgoerli: {
+      chainId: 5050,
+      url: `https://goerli.optimism.tokamak.network`,
+      timeout: 200000,
+      accounts: [`${process.env.PRIVATE_KEY}` ]
+    }
   },
   etherscan: {
     // Your API key for Etherscan

@@ -16,6 +16,7 @@ import './libraries/Path.sol';
 import './libraries/PoolAddress.sol';
 import './libraries/CallbackValidation.sol';
 import './interfaces/external/IWETH9.sol';
+import 'hardhat/console.sol';
 
 /// @title Uniswap V3 Swap Router
 /// @notice Router for stateless execution of swaps against Uniswap V3
@@ -93,8 +94,11 @@ contract SwapRouter is
         if (recipient == address(0)) recipient = address(this);
 
         (address tokenIn, address tokenOut, uint24 fee) = data.path.decodeFirstPool();
+        console.log('exactInputInternal %s', tokenIn);
+        console.log('exactInputInternal %s', tokenOut);
 
         bool zeroForOne = tokenIn < tokenOut;
+        console.logBool(zeroForOne);
 
         (int256 amount0, int256 amount1) = getPool(tokenIn, tokenOut, fee).swap(
             recipient,
@@ -105,6 +109,8 @@ contract SwapRouter is
                 : sqrtPriceLimitX96,
             abi.encode(data)
         );
+        console.logInt(amount0);
+        console.logInt(amount1);
 
         return uint256(-(zeroForOne ? amount1 : amount0));
     }
@@ -138,7 +144,7 @@ contract SwapRouter is
 
         while (true) {
             bool hasMultiplePools = params.path.hasMultiplePools();
-
+            console.logBool(hasMultiplePools);
             // the outputs of prior swaps become the inputs to subsequent ones
             params.amountIn = exactInputInternal(
                 params.amountIn,
