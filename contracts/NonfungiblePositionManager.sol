@@ -5,7 +5,8 @@ pragma abicoder v2;
 import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
 import '@uniswap/v3-core/contracts/libraries/FixedPoint128.sol';
 import '@uniswap/v3-core/contracts/libraries/FullMath.sol';
-
+import './libraries/FullMath2.sol';
+import 'hardhat/console.sol';
 import './interfaces/INonfungiblePositionManager.sol';
 import './interfaces/INonfungibleTokenPositionDescriptor.sol';
 import './libraries/PositionKey.sol';
@@ -137,6 +138,7 @@ contract NonfungiblePositionManager is
             uint256 amount1
         )
     {
+        console.log('solidity mint');
         IUniswapV3Pool pool;
         (liquidity, amount0, amount1, pool) = addLiquidity(
             AddLiquidityParams({
@@ -230,13 +232,21 @@ contract NonfungiblePositionManager is
         // this is now updated to the current transaction
         (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
 
+        console.logBytes32(positionKey);
+        console.log('what1');
+        console.log(feeGrowthInside0LastX128);
+        console.log(position.feeGrowthInside0LastX128);
+        console.log(position.liquidity);
+        console.log(feeGrowthInside1LastX128);
+
         position.tokensOwed0 += uint128(
-            FullMath.mulDiv(
+            FullMath2.mulDiv(
                 feeGrowthInside0LastX128 - position.feeGrowthInside0LastX128,
                 position.liquidity,
                 FixedPoint128.Q128
             )
         );
+        console.log('what2');
         position.tokensOwed1 += uint128(
             FullMath.mulDiv(
                 feeGrowthInside1LastX128 - position.feeGrowthInside1LastX128,
@@ -244,11 +254,11 @@ contract NonfungiblePositionManager is
                 FixedPoint128.Q128
             )
         );
-
+        console.log('what3');
         position.feeGrowthInside0LastX128 = feeGrowthInside0LastX128;
         position.feeGrowthInside1LastX128 = feeGrowthInside1LastX128;
         position.liquidity += liquidity;
-
+        console.log('what4');
         emit IncreaseLiquidity(params.tokenId, liquidity, amount0, amount1);
     }
 

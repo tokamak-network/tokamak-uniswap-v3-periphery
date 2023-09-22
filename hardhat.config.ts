@@ -3,6 +3,8 @@ import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-waffle'
 import 'hardhat-typechain'
 import 'hardhat-watcher'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.8.15',
@@ -47,7 +49,22 @@ const DEFAULT_COMPILER_SETTINGS = {
 export default {
   networks: {
     hardhat: {
-      allowUnlimitedContractSize: false,
+      allowUnlimitedContractSize: true,
+      // forking: {
+      //   //url: 'https://rpc.titan.tokamak.network',
+      //   url: 'https://rpc.titan-goerli.tokamak.network',
+      //   //blockNumber: 1296,
+      // },
+      //accounts: [`${process.env.PRIVATE_KEY1}`],
+    },
+    localhost: {
+      allowUnlimitedContractSize: true,
+      forking: {
+        //url: 'https://rpc.titan.tokamak.network',
+        url: 'https://rpc.titan-goerli.tokamak.network',
+        //blockNumber: 1296,
+      },
+      accounts: [`${process.env.PRIVATE_KEY1}`],
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
@@ -75,6 +92,16 @@ export default {
     },
     optimism: {
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+    },
+    titan: {
+      url: 'https://rpc.titan.tokamak.network',
+      chainId: 55004,
+      accounts: [`${process.env.PRIVATE_KEY1}`],
+    },
+    titanGoerli: {
+      url: `https://rpc.titan-goerli.tokamak.network`,
+      chainId: 5050,
+      accounts: [`${process.env.PRIVATE_KEY1}`],
     },
   },
   etherscan: {

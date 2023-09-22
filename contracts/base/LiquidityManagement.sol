@@ -5,11 +5,11 @@ pragma abicoder v2;
 import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol';
 import '@uniswap/v3-core/contracts/interfaces/callback/IUniswapV3MintCallback.sol';
 import '@uniswap/v3-core/contracts/libraries/TickMath.sol';
-
+import '../libraries/PositionKey.sol';
 import '../libraries/PoolAddress.sol';
 import '../libraries/CallbackValidation.sol';
 import '../libraries/LiquidityAmounts.sol';
-
+import 'hardhat/console.sol';
 import './PeripheryPayments.sol';
 import './PeripheryImmutableState.sol';
 
@@ -87,6 +87,13 @@ abstract contract LiquidityManagement is IUniswapV3MintCallback, PeripheryImmuta
             liquidity,
             abi.encode(MintCallbackData({poolKey: poolKey, payer: msg.sender}))
         );
+
+        bytes32 positionKey = PositionKey.compute(address(this), params.tickLower, params.tickUpper);
+
+        // this is now updated to the current transaction
+        (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
+        console.log('liquidityManagement.sol', feeGrowthInside0LastX128);
+        console.log('liquidityManagement.sol', feeGrowthInside1LastX128);
 
         require(amount0 >= params.amount0Min && amount1 >= params.amount1Min, 'Price slippage check');
     }
