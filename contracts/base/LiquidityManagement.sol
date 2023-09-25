@@ -79,7 +79,7 @@ abstract contract LiquidityManagement is IUniswapV3MintCallback, PeripheryImmuta
                 params.amount1Desired
             );
         }
-
+        console.log('liquidity', liquidity);
         (amount0, amount1) = pool.mint(
             params.recipient,
             params.tickLower,

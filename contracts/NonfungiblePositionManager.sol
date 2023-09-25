@@ -271,22 +271,26 @@ contract NonfungiblePositionManager is
         checkDeadline(params.deadline)
         returns (uint256 amount0, uint256 amount1)
     {
+        console.log('1', params.liquidity);
         require(params.liquidity > 0);
         Position storage position = _positions[params.tokenId];
-
+        console.log(position.liquidity);
         uint128 positionLiquidity = position.liquidity;
         require(positionLiquidity >= params.liquidity);
 
         PoolAddress.PoolKey memory poolKey = _poolIdToPoolKey[position.poolId];
         IUniswapV3Pool pool = IUniswapV3Pool(PoolAddress.computeAddress(factory, poolKey));
         (amount0, amount1) = pool.burn(position.tickLower, position.tickUpper, params.liquidity);
-
+        console.log('2');
         require(amount0 >= params.amount0Min && amount1 >= params.amount1Min, 'Price slippage check');
 
         bytes32 positionKey = PositionKey.compute(address(this), position.tickLower, position.tickUpper);
         // this is now updated to the current transaction
         (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
 
+        console.log('decreaseLiquidity 1');
+        console.log(feeGrowthInside0LastX128);
+        console.log(position.feeGrowthInside0LastX128);
         position.tokensOwed0 +=
             uint128(amount0) +
             uint128(
@@ -296,6 +300,9 @@ contract NonfungiblePositionManager is
                     FixedPoint128.Q128
                 )
             );
+        console.log('2');
+        console.log(feeGrowthInside1LastX128);
+        console.log(position.feeGrowthInside1LastX128);
         position.tokensOwed1 +=
             uint128(amount1) +
             uint128(
