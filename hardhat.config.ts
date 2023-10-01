@@ -3,6 +3,8 @@ import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-waffle'
 import 'hardhat-typechain'
 import 'hardhat-watcher'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
@@ -51,6 +53,26 @@ export default {
     hardhat: {
       allowUnlimitedContractSize: false,
     },
+    localhost: {
+      forking: {
+        url: `https://rpc.titan-goerli.tokamak.network`,
+      },
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
+    titangoerli: {
+      url: 'https://rpc.titan-goerli.tokamak.network',
+      accounts: [`${process.env.PRIVATE_KEY}`],
+      chainId: 5050,
+      // gasPrice: 250000,
+      deploy: ['deploy'],
+    },
+    titan: {
+      url: 'https://rpc.titan.tokamak.network',
+      accounts: [`${process.env.PRIVATE_KEY}`],
+      chainId: 55004,
+      // gasPrice: 250000,
+      // deploy: ['deploy_titan'],
+    },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
@@ -82,7 +104,30 @@ export default {
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    // apiKey: `${process.env.ETHERSCAN_API_KEY}`
+    apiKey: {
+      goerli: `${process.env.ETHERSCAN_API_KEY}`,
+      titangoerli: `${process.env.ETHERSCAN_API_KEY}`,
+      titan: `${process.env.ETHERSCAN_API_KEY}`,
+    },
+    customChains: [
+      {
+        network: 'titangoerli',
+        chainId: 5050,
+        urls: {
+          apiURL: 'https://explorer.titan-goerli.tokamak.network/api',
+          browserURL: 'https://explorer.titan-goerli.tokamak.network',
+        },
+      },
+      {
+        network: 'titan',
+        chainId: 55004,
+        urls: {
+          apiURL: 'https://explorer.titan.tokamak.network/api',
+          browserURL: 'https://explorer.titan.tokamak.network',
+        },
+      },
+    ],
   },
   solidity: {
     compilers: [DEFAULT_COMPILER_SETTINGS],
