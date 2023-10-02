@@ -32,14 +32,6 @@ const main = async () => {
       ],
     })
     await run('verify', {
-      address: data['NonfungiblePositionManager'],
-      constructorArgsParams: [
-        data['UniswapV3Factory'],
-        '0x4200000000000000000000000000000000000006',
-        data['NonfungibleTokenPositionDescriptor'],
-      ],
-    })
-    await run('verify', {
       address: data['Quoter'],
       constructorArgsParams: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
     })
@@ -55,7 +47,7 @@ const main = async () => {
       address: data['UniswapInterfaceMulticall'],
       constructorArgsParams: [],
     })
-  } catch (e) {
+  } catch (e: any) {
     if (e.message.toLowerCase().includes('already verified')) {
       console.log('Already verified!')
     } else {
