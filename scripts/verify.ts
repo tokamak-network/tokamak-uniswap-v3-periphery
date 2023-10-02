@@ -8,46 +8,46 @@ let data = JSON.parse(fs.readFileSync(`deployed.uniswap.${chainName}.json`).toSt
 const main = async () => {
   console.log('Verifying contract...')
   try {
-    await run('verify', {
+    await run('verify:verify', {
       address: data['NonfungiblePositionManager'],
-      constructorArgsParams: [
+      constructorArguments: [
         data['UniswapV3Factory'],
         '0x4200000000000000000000000000000000000006',
         data['NonfungibleTokenPositionDescriptor'],
       ],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['SwapRouter'],
-      constructorArgsParams: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
+      constructorArguments: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['NFTDescriptor'],
-      constructorArgsParams: [],
+      constructorArguments: [],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['NonfungibleTokenPositionDescriptor'],
-      constructorArgsParams: [
+      constructorArguments: [
         '0x4200000000000000000000000000000000000006',
         '0xaaaebeba3810b1e6b70781f14b2d72c1cb89c0b2b320c43bb67ff79f562f5ff4',
       ],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['Quoter'],
-      constructorArgsParams: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
+      constructorArguments: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['QuoterV2'],
-      constructorArgsParams: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
+      constructorArguments: [data['UniswapV3Factory'], '0x4200000000000000000000000000000000000006'],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['TickLens'],
-      constructorArgsParams: [],
+      constructorArguments: [],
     })
-    await run('verify', {
+    await run('verify:verify', {
       address: data['UniswapInterfaceMulticall'],
-      constructorArgsParams: [],
+      constructorArguments: [],
     })
-  } catch (e: any) {
+  } catch (e) {
     if (e.message.toLowerCase().includes('already verified')) {
       console.log('Already verified!')
     } else {
