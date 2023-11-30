@@ -100,6 +100,13 @@ export default {
     optimism: {
       url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
+    holesky: {
+      url: `https://ethereum-holesky.publicnode.com`,
+      accounts: [`${process.env.PRIVATE_KEY}`],
+      chainId: 17000,
+      // gasMultiplier: 1.25,
+      // gasPrice: 10000000000,
+    },
   },
   etherscan: {
     // Your API key for Etherscan
@@ -109,6 +116,7 @@ export default {
       goerli: `${process.env.ETHERSCAN_API_KEY}`,
       titangoerli: `${process.env.ETHERSCAN_API_KEY}`,
       titan: `${process.env.ETHERSCAN_API_KEY}`,
+      holesky: `${process.env.ETHERSCAN_API_KEY}`,
     },
     customChains: [
       {
@@ -125,6 +133,14 @@ export default {
         urls: {
           apiURL: 'https://explorer.titan.tokamak.network/api',
           browserURL: 'https://explorer.titan.tokamak.network',
+        },
+      },
+      {
+        network: 'holesky',
+        chainId: 17000,
+        urls: {
+          apiURL: 'https://api-holesky.etherscan.io/api',
+          browserURL: 'https://holesky.etherscan.io/',
         },
       },
     ],
