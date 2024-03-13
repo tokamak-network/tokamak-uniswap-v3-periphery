@@ -1,8 +1,10 @@
 import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-waffle'
+import dotenv from 'dotenv'
 import 'hardhat-typechain'
 import 'hardhat-watcher'
+dotenv.config()
 
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
@@ -51,6 +53,11 @@ export default {
     hardhat: {
       allowUnlimitedContractSize: false,
     },
+    thanossepolia: {
+      url: `https://rpc.thanos-sepolia-test.tokamak.network`,
+      accounts: [`${process.env.PRIVATE_KEY}`],
+      chainId: 111551118080,
+    },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
@@ -83,6 +90,16 @@ export default {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: process.env.ETHERSCAN_API_KEY,
+    customChains: [
+      {
+        network: 'thanossepolia',
+        chainId: 111551118080,
+        urls: {
+          apiURL: 'https://explorer.thanos-sepolia-test.tokamak.network/api',
+          browserURL: 'https://explorer.thanos-sepolia-test.tokamak.network/',
+        },
+      },
+    ],
   },
   solidity: {
     compilers: [DEFAULT_COMPILER_SETTINGS],
