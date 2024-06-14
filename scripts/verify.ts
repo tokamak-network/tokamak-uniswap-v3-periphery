@@ -30,8 +30,8 @@ const main = async () => {
       ],
     })
     await run('verify:verify', {
-      address: data['nftDescriptorLibraryAddress'],
-      constructorArguments: [],
+       address: data['nftDescriptorLibraryAddress'],
+       constructorArguments: [],
     })
     const _nativeCurrencyLabelBytes = asciiStringToBytes32('TON')
     await run('verify:verify', {
