@@ -54,8 +54,12 @@ export default {
       allowUnlimitedContractSize: false,
     },
     thanossepolia: {
-      url: `https://rpc.thanos-sepolia-test.tokamak.network`,
-      chainId: 111551118080,
+      url: `https://rpc.thanos-sepolia.tokamak.network`,
+      chainId: 111551119090,
+    },
+    thanossepolianightly:{
+	    url: 'https://rpc.thanos-sepolia-nightly.tokamak.network',
+	    chainId: 111551118282,
     },
     titansepolia:{
       url: `https://rpc.titan-sepolia.tokamak.network`,
@@ -93,16 +97,26 @@ export default {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: {
-      thanossepolia: process.env.ETHERSCAN_API_KEY,
+      thanossepolia: "xxdfasdfadsfsdfsd9x",
+      thanossepolianightly: "xxdfasdfadsfsdfsd9x",
       titansepolia: process.env.ETHERSCAN_API_KEY,
+      
     },
     customChains: [
       {
         network: 'thanossepolia',
-        chainId: 111551118080,
+        chainId: 111551119090,
         urls: {
-          apiURL: 'https://explorer.thanos-sepolia-test.tokamak.network/api',
-          browserURL: 'https://explorer.thanos-sepolia-test.tokamak.network/',
+          apiURL: 'https://explorer.thanos-sepolia.tokamak.network/api',
+          browserURL: 'https://explorer.thanos-sepolia.tokamak.network/',
+        },
+      },
+      {
+        network: 'thanossepolianightly',
+        chainId: 111551118282,
+        urls: {
+          apiURL: 'https://explorer.thanos-sepolia-nightly.tokamak.network/api',
+          browserURL: 'https://explorer.thanos-sepolia-nightly.tokamak.network/',
         },
       },
       {
